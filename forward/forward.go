@@ -20,7 +20,7 @@ func Start(listenAddr, toAddr, aesKey, aesIv string) {
 	key, _ := hex.DecodeString(aesKey)
 	iv, _ := hex.DecodeString(aesIv)
 
-	block1, err := aes.NewCipher(key)
+	block, err := aes.NewCipher(key)
 	if err != nil {
 		panic(err)
 	}
@@ -32,7 +32,7 @@ func Start(listenAddr, toAddr, aesKey, aesIv string) {
 	}
 	defer pc.Close()
 
-	stream := cipher.NewCTR(block1, iv[:aes.BlockSize])
+	stream := cipher.NewCTR(block, iv[:aes.BlockSize])
 
 	forward := &Forward{
 		dstAddr:    toAddr,
